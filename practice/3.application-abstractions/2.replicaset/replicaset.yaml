@@ -1,15 +1,20 @@
 ---
 # file: practice/2.application-abstractions/2.replicaset/replicaset.yaml
+
+# kubectl scale --replicas 2 rs my-replicaset
+# kubectl get rs,po
+# kubectl set image rs my-replicaset nginx=quay.io/testing-farm/nginx:1.13 - При этом мы обновили только шаблон репликасет, 
+# но сами поды образы не поменяли. Будут обновляться только новые поды
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
   name: my-replicaset
 spec:
-  replicas: 2
-  selector:
+  replicas: 3 # Количество реплик подов
+  selector: # Выбирает все поды, у к-ых (условие, напр. совпадение по labels)
     matchLabels:
       app: my-app
-  template:
+  template: # шаблон пода, имя указывать не нужно, придумается само
     metadata:
       labels:
         app: my-app

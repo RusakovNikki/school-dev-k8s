@@ -1,11 +1,23 @@
 ---
 # file: practice/2.application-abstractions/3.deployment/deployment.yaml
+# Под копотом - создаёт репликасет и поды
+# kubectl set image deploy my-deployment nginx=quay.io/testing-farm/nginx:1.13 - в отличие от репликасет автоматически заменяет поды.
+# kubectl apply -f deployment.yaml - аналогично
+# kubectl edit deploy my-deployment - открывается редактор деплоя\репликасета\пода
+# ! - при этом если мы скейлим или изменяем образ, то сохраняется репликасет с 0 реплик - предыдущее состояние, чтобы потом сделать ->
+# -> kubectl rollout undo deploy my-deployment - при этом можно так сделать несколько раз подряд. По умолчанию хранится 10 репликасетов
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: my-deployment
-spec:
+spec: # Такая же спека как у репликасета, но поведение другое
   replicas: 2
+  strategy:
+    rollingUpdate: # стратегия постепенного обновления подов.
+      maxSurge: 1 # Максимальное число реплик может быть больше на 1 чем в поле replicas при обновлении
+      maxUnavailable: 0 # нельзя уменьшить число реплик меньше чем поле replicas при обновлении. 
+      # В таком случае только уже после rollingUpdate сработает работа репликасета, 
+      # и уменьшит число до указанных в поле replicas, таким образом обновив поды
   selector:
     matchLabels:
       app: my-app

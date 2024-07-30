@@ -21,9 +21,11 @@ spec:
       containers:
       - image: quay.io/testing-farm/nginx:1.12
         name: nginx
-        env:
-        - name: TEST
-          value: foo
+        env: # список env переменных, к-ые будут созданы в контейнере
+        # Минус - нужно в каждом деплое дублировать переменные, если, например, они для авторизации и они одинаковые
+        # Поэтьому лучше использовать ConfigMap, в котором хранятся env
+        - name: TEST # Ключ 
+          value: foo # Значение
         ports:
         - containerPort: 80
         resources:

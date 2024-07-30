@@ -1,13 +1,13 @@
 ---
 # file: practice/2.application-abstractions/1.pod/pod.yaml
-apiVersion: v1
-kind: Pod
+apiVersion: v1 # Указываем версию апи, к которой будет идти обращение по протоколу REST
+kind: Pod # Указываем сущность, в данном случае - Под
 metadata:
-  name: my-pod
+  name: my-pod # Указываем метаданные. В данном случае название пода 
 spec:
   containers:
   - image: quay.io/testing-farm/nginx:1.12
-    name: nginx
-    ports:
+    name: nginx # уникальное имя контейнера внутри пода
+    ports: # необязательная штука. Порты всё равно указываются в деплое или сервисе
     - containerPort: 80
 ...

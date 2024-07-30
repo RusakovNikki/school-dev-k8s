@@ -1,4 +1,8 @@
 ---
+# Место где можно хранить енв переменные
+# kubectl get cm - просмотр configMap
+# kubectl get cm my-configmap-env -o yaml - Просмотр конфигмапа
+# Тут непринято прописывать какие-то секретные данные. Они хранятся в Secret
 apiVersion: v1
 kind: ConfigMap
 metadata:
