@@ -3,8 +3,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: my-configmap
-data:
-  default.conf: |
+data: # Даёт возможность указать файл
+  default.conf: | # символ что идёт текст не в формате ямл
     server {
         listen       80 default_server;
         server_name  _;
@@ -12,7 +12,8 @@ data:
         default_type text/plain;
 
         location / {
-            return 200 '$hostname\n';
+            return 200 '$hostname\nОк\nОк\n';
         }
     }
+  # При этом если сделать apply, то в деплой автоматом придут изменения, однако надо перезагрузить сам nginx
 ...

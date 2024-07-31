@@ -1,4 +1,9 @@
 ---
+# kubectl port-forward my-deployment-6f8f9c67b9-zgvbg 8080:80 & - для того чтобы проверить, применились ли изменения, и работает ли nginx
+# можно пробросить порты таким образом, чтобы можно было запустить на своём пк
+# Эта проверка только для разработки
+# Чтобы убить процесс, надо ps ax | grep 8080
+# kill -9  30322
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,11 +35,13 @@ spec:
           limits:
             cpu: 100m
             memory: 100Mi
-        volumeMounts:
-        - name: config
-          mountPath: /etc/nginx/conf.d/
-      volumes:
+        volumeMounts: # указывает какой том куда смонтировать
+        - name: config # название тома
+          mountPath: /etc/nginx/conf.d/ # Куда это смонтировать
+      volumes: # поле, где указываются все тома и их значение списком
+      # В данном случае речь идёт не об энв переменных, а о каких-то файлах,
+      # или конфигурациях, например nginx
       - name: config
-        configMap:
+        configMap: # Аналогично предыдущим примерам можно использовать configMap, secret, итд..
           name: my-configmap
 ...

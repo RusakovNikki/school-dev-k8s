@@ -29,7 +29,8 @@ spec:
             secretKeyRef:
               name: test
               key: test1
-        - name: __NODE_NAME
+        - name: __NODE_NAME # тот самый downward. По сути - это данные из сконфигурированного конфига
+        # Их получить можно обращаясь через точку
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
@@ -66,15 +67,15 @@ spec:
         - name: config
           mountPath: /etc/nginx/conf.d/
         - name: podinfo
-          mountPath: /etc/podinfo
+          mountPath: /etc/podinfo # указываем путь, куда будут записаны downwards
       volumes:
       - name: config
         configMap:
           name: my-configmap
       - name: podinfo
-        downwardAPI:
+        downwardAPI: # использование downward в томе
           items:
-            - path: "labels"
+            - path: "labels" # Мы говорим, что нужно сохранить метки из downward в файл с названием labels
               fieldRef:
                 fieldPath: metadata.labels
             - path: "annotations"
